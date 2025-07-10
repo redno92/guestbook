@@ -6,13 +6,13 @@ pipeline {
     agent any
     environment {
         strDockerTag = "${TODAY}_${BUILD_ID}"
-        strDockerImage ="yu3papa/cicd_guestbook:${strDockerTag}"
+        strDockerImage ="sadaroma/cicd_guestbook:${strDockerTag}"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url:'https://github.com/yu3papa/guestbook.git'
+                git branch: 'master', url:'https://github.com/redno92/guestbook.git'
             }
         }
         stage('Build') {
@@ -101,15 +101,17 @@ pipeline {
         }
         stage ('JMeter LoadTest') {
             steps { 
-                sh '~/lab/sw/jmeter/bin/jmeter.sh -j jmeter.save.saveservice.output_format=xml -n -t src/main/jmx/guestbook_loadtest.jmx -l loadtest_result.jtl' 
-                perfReport filterRegex: '', showTrendGraphs: true, sourceDataFiles: 'loadtest_result.jtl' 
+		echo "JMeter LoadTest"
+                //sh '~/lab/sw/jmeter/bin/jmeter.sh -j jmeter.save.saveservice.output_format=xml -n -t src/main/jmx/guestbook_loadtest.jmx -l loadtest_result.jtl' 
+                //perfReport filterRegex: '', showTrendGraphs: true, sourceDataFiles: 'loadtest_result.jtl' 
             } 
         }
     }
     post { 
         always { 
-            emailext (attachLog: true, body: '본문', compressLog: true
-                    , recipientProviders: [buildUser()], subject: '제목', to: 'yu3papa.j@gmail.com')
+        //    emailext (attachLog: true, body: '본문', compressLog: true
+         //           , recipientProviders: [buildUser()], subject: '제목', to: 'yu3papa.j@gmail.com')
+		echo "post call"
 
         }
         success { 
