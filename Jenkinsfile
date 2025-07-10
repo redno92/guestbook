@@ -76,7 +76,7 @@ pipeline {
         stage('Docker Image Push') {
             steps {
                 script {
-                    docker.withRegistry('', 'DockerHub_Credential') {
+                    docker.withRegistry('', 'DockerHub-Credential2') {
                         oDockImage.push()
                     }
                 }
